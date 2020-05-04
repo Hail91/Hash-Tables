@@ -16,6 +16,9 @@ class HashTable:
 
     Implement this.
     """
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.storage = [None] * capacity
 
     def fnv1(self, key):
         """
@@ -23,8 +26,14 @@ class HashTable:
 
         Implement this, and/or DJB2.
         """
+        hash_value = 15638946125895767065
+        for x in key:
+            hash_value = hash_value * 1574369853276
+            hash_value = hash_value ^ ord(x)
+        return hash_value
 
-    def djb2(self, key):
+
+    # def djb2(self, key):
         """
         DJB2 32-bit hash function
 
@@ -36,8 +45,7 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -47,6 +55,9 @@ class HashTable:
 
         Implement this.
         """
+        value_location = self.hash_index(key)
+        self.storage[value_location] = value
+
 
     def delete(self, key):
         """
@@ -56,6 +67,11 @@ class HashTable:
 
         Implement this.
         """
+        value_location = self.hash_index(key)
+        if self.storage[value_location] is not None:
+            self.storage[value_location] = None
+        else:
+            print('Key not found!')
 
     def get(self, key):
         """
@@ -65,6 +81,12 @@ class HashTable:
 
         Implement this.
         """
+        value_location = self.hash_index(key)
+        if self.storage[value_location] is not None:
+            return self.storage[value_location]
+        else:
+            return None
+
 
     def resize(self):
         """
@@ -101,3 +123,4 @@ if __name__ == "__main__":
     print(ht.get("line_3"))
 
     print("")
+
