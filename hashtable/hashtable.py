@@ -26,9 +26,11 @@ class HashTable:
 
         Implement this, and/or DJB2.
         """
-        hash_value = 15638946125895767065
+        # offset_basis
+        hash_value = 14695981039346656037
+        # Each octet of data to be hashed
         for x in key:
-            hash_value = hash_value * 1574369853276
+            hash_value = hash_value * 1099511628211 # FNV prime
             hash_value = hash_value ^ ord(x)
         return hash_value
 
@@ -55,9 +57,32 @@ class HashTable:
 
         Implement this.
         """
-        value_location = self.hash_index(key)
-        self.storage[value_location] = value
+        # value_location = self.hash_index(key)
+        # self.storage[value_location] = value
 
+        # Get index of hashtable to store LL node
+        index = self.hash_index(key)
+        # Get current index of our hashtable and create a spot for a LL node
+        node = self.storage[index]
+        # Create a new LL node and assign to new_node variable
+        new_node = HashTableEntry(key, value)
+        # 0 ---> (key, value) --> (key1, value1)
+        # If node does not exist, then create one
+        if node is not None:
+            prev = None
+        # While There is a next node and the keys are not the same
+            while node is not None:
+                if node.key == key:
+                    node.value = value
+                    return
+                # Assign current node to prev
+                prev = node
+                # Assign next node to current node
+                node = node.next
+                # ^ This is just stepping through the linked list nodes
+            prev.next = new_node
+        else:
+            self.storage[index] = new_node
 
     def delete(self, key):
         """
@@ -67,11 +92,20 @@ class HashTable:
 
         Implement this.
         """
-        value_location = self.hash_index(key)
-        if self.storage[value_location] is not None:
-            self.storage[value_location] = None
+        index = self.hash_index(key)
+        node = self.storage[index]
+
+        prev = None
+        while node is not None and node.key != key:
+            prev = node
+            node = node.next
+        if node is None:
+            print('Warning, key not found!')
         else:
-            print('Key not found!')
+            if prev is None:
+                self.storage[index] = node.next
+            else:
+                prev.next = node.next
 
     def get(self, key):
         """
@@ -81,11 +115,16 @@ class HashTable:
 
         Implement this.
         """
-        value_location = self.hash_index(key)
-        if self.storage[value_location] is not None:
-            return self.storage[value_location]
-        else:
-            return None
+        index = self.hash_index(key)
+        node = self.storage[index]
+
+        while node is not None:
+            if node.key == key:
+                return node.value
+            else:
+                node = node.next
+        return None
+
 
 
     def resize(self):
