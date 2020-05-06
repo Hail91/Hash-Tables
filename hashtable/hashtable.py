@@ -79,14 +79,14 @@ class HashTable:
             self.entry_count += 1
             # After we add item, we need to check the load count and resize depending on result
             if self.load_factor() > 0.7:
-                self.resize()
+                self.resize(self.capacity)
         # If Node does not exist, generate a new LL node and insert into the hashtable
         else:
             self.storage[index] = new_node
-        self.entry_count += 1
+            self.entry_count += 1
         # After we add item, we need to check the load count and resize depending on result
         if self.load_factor() > 0.7:
-            self.resize()
+            self.resize(self.capacity)
 
     def delete(self, key):
         """
@@ -146,7 +146,7 @@ class HashTable:
         # Get old hashtable
         old_hash_table = self.storage
         # Define new hashtable capacity
-        # self.capacity = self.capacity * 2
+        self.capacity = self.capacity * 2
         # Generate a new hashtable with the updated capacity
         new_hash_table = [None] * new_capacity
         # Assign that new hashtable to storage
@@ -154,7 +154,7 @@ class HashTable:
         # Loop over the old hash table checking for values, if they exist....rehash and add them back in.
         for v in old_hash_table:
             if v is not None:
-                while v:
+                while v is not None:
                     self.put(v.key, v.value)
                     v = v.next
 
@@ -162,11 +162,8 @@ if __name__ == "__main__":
     ht = HashTable(2)
 
     ht.put("line_1", "Tiny hash table")
-    print(ht.capacity)
     ht.put("line_2", "Filled beyond capacity")
-    print(ht.capacity)
     ht.put("line_3", "Linked list saves the day!")
-    print(ht.capacity)
 
     print("")
 
