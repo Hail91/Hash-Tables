@@ -135,7 +135,7 @@ class HashTable:
 
 
 
-    def resize(self):
+    def resize(self, new_capacity):
         """
         Doubles the capacity of the hash table and
         rehash all key/value pairs.
@@ -146,9 +146,9 @@ class HashTable:
         # Get old hashtable
         old_hash_table = self.storage
         # Define new hashtable capacity
-        self.capacity = self.capacity * 2
+        # self.capacity = self.capacity * 2
         # Generate a new hashtable with the updated capacity
-        new_hash_table = [None] * self.capacity
+        new_hash_table = [None] * new_capacity
         # Assign that new hashtable to storage
         self.storage = new_hash_table
         # Loop over the old hash table checking for values, if they exist....rehash and add them back in.
