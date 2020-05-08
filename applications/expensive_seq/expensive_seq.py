@@ -1,5 +1,10 @@
 def expensive_seq(x, y, z):
-    # Implement me
+    # cache = {}
+
+    # if x <= 0:
+    #     return y + z
+    # if x not in cache:
+    #     cache[x] = expensive_seq(x-1, y+1,z)
 
 if __name__ == "__main__":
     for i in range(10):

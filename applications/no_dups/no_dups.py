@@ -1,5 +1,15 @@
-def no_dups(s):
-    # Implement me.
+def no_dups(string):
+    storage = dict()
+    # Loop over the input string, assign each word in the string to a dictionary key
+    for word in string.split():
+        if word not in storage:    # [ cats, dogs, fish, ]
+            storage[word] = 1
+        elif word in storage:
+            storage[word] += 1
+    result = " ".join(storage.keys())
+    return result
+
+
 
 
 if __name__ == "__main__":
