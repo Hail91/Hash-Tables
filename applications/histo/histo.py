@@ -15,7 +15,7 @@ def histogram():
     words.sort(key=lambda v: v[0], reverse=False)
     words.sort(key=lambda v: v[1], reverse=True)
     for x in words:
-        print(f"{x[0]}  {'#' * x[1]}")
+        print(f"{x[0]: >15}  {'#' * x[1]}")
 
 histogram()
 
