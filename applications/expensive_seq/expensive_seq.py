@@ -1,5 +1,6 @@
 def expensive_seq(x, y, z):
-    # Implement me
+    storage = dict()
+
 
 if __name__ == "__main__":
     for i in range(10):
